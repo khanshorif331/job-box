@@ -85,6 +85,23 @@ const authSlice = createSlice({
 				state.isError = true
 				state.error = action.error.message
 			})
+			.addCase(googleLogin.pending, (state, payload) => {
+				state.isLoading = true
+				state.isError = false
+				state.error = ''
+			})
+			.addCase(googleLogin.fulfilled, (state, { payload }) => {
+				state.isLoading = false
+				state.email = payload
+				state.isError = false
+				state.error = ''
+			})
+			.addCase(googleLogin.rejected, (state, action) => {
+				state.isLoading = false
+				state.email = ''
+				state.isError = true
+				state.error = action.error.message
+			})
 	},
 })
 
