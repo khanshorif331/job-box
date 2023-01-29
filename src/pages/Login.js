@@ -66,6 +66,12 @@ const Login = () => {
 									</span>
 								</p>
 							</div>
+							<button
+								type="button"
+								className="font-bold text-white py-3 rounded-full bg-primary w-full"
+							>
+								Login with Google
+							</button>
 						</div>
 					</form>
 				</div>
