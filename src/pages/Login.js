@@ -8,12 +8,15 @@ import loginImage from '../assets/login.svg'
 import { googleLogin, loginUser } from '../features/auth/authSlice'
 const Login = () => {
 	const { isLoading, email, error, isError } = useSelector(state => state.auth)
-	const { register, handleSubmit, reset } = useForm()
+	const { register, handleSubmit } = useForm()
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
 
 	const onSubmit = ({ email, password }) => {
 		dispatch(loginUser({ email, password }))
+		if (isError) {
+			toast.error(error)
+		}
 	}
 
 	const handleGoogleLogin = () => {
@@ -26,11 +29,11 @@ const Login = () => {
 		}
 	}, [isLoading, email, navigate])
 
-	useEffect(() => {
-		if (isError) {
-			toast.error(error)
-		}
-	}, [isError, error])
+	// useEffect(() => {
+	// 	if (isError) {
+	// 		toast.error(error)
+	// 	}
+	// }, [isError, error])
 	return (
 		<div className="flex h-screen items-center">
 			<div className="w-1/2">
