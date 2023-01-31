@@ -7,7 +7,12 @@ import { useNavigate } from 'react-router-dom'
 import loginImage from '../assets/login.svg'
 import { googleLogin, loginUser } from '../features/auth/authSlice'
 const Login = () => {
-	const { isLoading, email, error, isError } = useSelector(state => state.auth)
+	const {
+		user: { email },
+		isLoading,
+		error,
+		isError,
+	} = useSelector(state => state.auth)
 	const { register, handleSubmit } = useForm()
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
@@ -25,6 +30,7 @@ const Login = () => {
 
 	useEffect(() => {
 		if (!isLoading && email) {
+			console.log(isLoading, email, 'isLoading, email')
 			navigate('/')
 		}
 	}, [isLoading, email, navigate])
