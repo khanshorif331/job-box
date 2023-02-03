@@ -11,7 +11,12 @@ const EmployerRegistration = () => {
 		user: { email },
 	} = useSelector(state => state.auth)
 
-	const { handleSubmit, register, control } = useForm()
+	const { handleSubmit, register, control } = useForm({
+		defaultValues: {
+			email,
+		},
+	})
+
 	const term = useWatch({ control, name: 'term' })
 	const navigate = useNavigate()
 	const [postUser, { isLoading, isError }] = useRegisterMutation()
@@ -49,6 +54,7 @@ const EmployerRegistration = () => {
 	const onSubmit = data => {
 		console.log(data)
 		postUser({ ...data, role: 'employer' })
+		navigate('/dashboard')
 	}
 
 	return (
@@ -90,8 +96,9 @@ const EmployerRegistration = () => {
 							type="email"
 							id="email"
 							{...register('email')}
-							value={email}
-							readOnly
+							// value={email}
+							disabled
+							className="cursor-not-allowed"
 						/>
 					</div>
 					<div className="flex flex-col w-full max-w-xs">
