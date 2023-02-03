@@ -1,13 +1,15 @@
 import React from 'react'
+import { useEffect } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
+import { toast } from 'react-hot-toast'
 import { FiTrash } from 'react-icons/fi'
 import { useSelector } from 'react-redux'
 import { usePostJobMutation } from '../../features/job/jobApi'
 
 const AddJob = () => {
 	const { companyName } = useSelector(state => state.auth.user)
-	const [postJob, { isLoading, isError }] = usePostJobMutation()
-	const { handleSubmit, register, control } = useForm({
+	const [postJob, { isLoading, isError, isSuccess }] = usePostJobMutation()
+	const { handleSubmit, register, control, reset } = useForm({
 		defaultValues: {
 			companyName,
 		},
@@ -30,7 +32,11 @@ const AddJob = () => {
 
 	const onSubmit = data => {
 		postJob(data)
-		console.log(data)
+
+		if (isSuccess) {
+			toast('Job added successfully', { type: 'success' })
+			reset()
+		}
 	}
 
 	return (
