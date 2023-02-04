@@ -31,7 +31,7 @@ const AddJob = () => {
 	} = useFieldArray({ control, name: 'requirements' })
 
 	const onSubmit = data => {
-		postJob(data)
+		postJob({ ...data, applicants: [], queries: [] })
 
 		if (isSuccess) {
 			toast('Job added successfully', { type: 'success' })
