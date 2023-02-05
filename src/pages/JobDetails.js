@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import meeting from '../assets/meeting.jpg'
 import { BsArrowRightShort, BsArrowReturnRight } from 'react-icons/bs'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -11,6 +11,7 @@ import { toast } from 'react-hot-toast'
 import { useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
 const JobDetails = () => {
+	const [reply, setReply] = useState('')
 	const { user } = useSelector(state => state.auth)
 	const navigate = useNavigate()
 	const { id } = useParams()
@@ -65,6 +66,13 @@ const JobDetails = () => {
 		sendQuestion(quesData)
 		console.log(data)
 		reset()
+	}
+	const handleReply = id => {
+		const data = {
+			reply,
+			userId: id,
+		}
+		console.log(data)
 	}
 
 	return (
@@ -152,10 +160,12 @@ const JobDetails = () => {
 												placeholder="Reply"
 												type="text"
 												className="w-full"
+												onBlur={e => setReply(e.target.value)}
 											/>
 											<button
 												className="shrink-0 h-14 w-14 bg-primary/10 border border-primary hover:bg-primary rounded-full transition-all  grid place-items-center text-primary hover:text-white"
 												type="button"
+												onClick={() => handleReply(id)}
 											>
 												<BsArrowRightShort size={30} />
 											</button>
@@ -233,7 +243,10 @@ const JobDetails = () => {
 					</div>
 					<div>
 						<p>Website</p>
-						<a className="font-semibold text-lg" href="#">
+						<a
+							className="font-semibold text-lg"
+							href="https://google.com"
+						>
 							https://website.com
 						</a>
 					</div>
