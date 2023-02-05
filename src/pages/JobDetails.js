@@ -13,11 +13,12 @@ import { useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
 const JobDetails = () => {
 	const [reply, setReply] = useState('')
+	console.log(reply)
 	const { user } = useSelector(state => state.auth)
 	const navigate = useNavigate()
 	const { id } = useParams()
 	const { data, isLoading, isError, isSuccess } = useJobByIdQuery(id, {
-		pollingInterval: 10000,
+		// pollingInterval: 10000, //can use this to refresh the page
 	})
 	const [sendQuestion] = useQuestionMutation()
 	const [sendReply] = useReplyMutation()
@@ -68,6 +69,10 @@ const JobDetails = () => {
 		}
 		sendQuestion(quesData)
 		reset()
+	}
+	const handleReplyInput = e => {
+		setReply(e.target.value)
+		e.target.value = ''
 	}
 	const handleReply = id => {
 		const data = {
@@ -162,7 +167,7 @@ const JobDetails = () => {
 												placeholder="Reply"
 												type="text"
 												className="w-full"
-												onBlur={e => setReply(e.target.value)}
+												onBlur={handleReplyInput}
 											/>
 											<button
 												className="shrink-0 h-14 w-14 bg-primary/10 border border-primary hover:bg-primary rounded-full transition-all  grid place-items-center text-primary hover:text-white"
