@@ -10,11 +10,9 @@ import routes from './routes/routes'
 function App() {
 	const dispatch = useDispatch()
 	const { isLoading } = useSelector(state => state.auth)
-	console.log(isLoading)
 	useEffect(() => {
 		onAuthStateChanged(auth, user => {
 			if (user) {
-				console.log(user, 'user')
 				dispatch(getUser(user.email))
 			} else {
 				dispatch(toggleLoading())

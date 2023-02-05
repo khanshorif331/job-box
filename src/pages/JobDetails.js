@@ -13,7 +13,6 @@ import { useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
 const JobDetails = () => {
 	const [reply, setReply] = useState('')
-	console.log(reply)
 	const { user } = useSelector(state => state.auth)
 	const navigate = useNavigate()
 	const { id } = useParams()
