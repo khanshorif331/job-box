@@ -6,6 +6,7 @@ import {
 	useApplyMutation,
 	useJobByIdQuery,
 	useQuestionMutation,
+	useReplyMutation,
 } from '../features/job/jobApi'
 import { toast } from 'react-hot-toast'
 import { useSelector } from 'react-redux'
@@ -17,6 +18,7 @@ const JobDetails = () => {
 	const { id } = useParams()
 	const { data, isLoading, isError, isSuccess } = useJobByIdQuery(id)
 	const [sendQuestion] = useQuestionMutation()
+	const [sendReply] = useReplyMutation()
 	const {
 		companyName,
 		position,
@@ -53,7 +55,6 @@ const JobDetails = () => {
 		if (isSuccess) {
 			toast.success('Applied successfully')
 		}
-		console.log(data)
 	}
 
 	const handleQuestion = data => {
@@ -64,7 +65,6 @@ const JobDetails = () => {
 			jobId: _id,
 		}
 		sendQuestion(quesData)
-		console.log(data)
 		reset()
 	}
 	const handleReply = id => {
@@ -72,7 +72,7 @@ const JobDetails = () => {
 			reply,
 			userId: id,
 		}
-		console.log(data)
+		sendReply(data)
 	}
 
 	return (
