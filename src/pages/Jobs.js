@@ -1,11 +1,16 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useEffect } from 'react'
 import JobCard from '../components/reusable/JobCard'
 import { useGetJobsQuery } from '../features/job/jobApi'
 
 const Jobs = () => {
 	const { data, isLoading, isError } = useGetJobsQuery()
 	console.log(data?.data)
+
+	if (isLoading) {
+		return <p className="mt-14 text-blue-800">Loading...</p>
+	}
+
 	return (
 		<div className="pt-14">
 			<div className="bg-primary/10 p-5 rounded-2xl">

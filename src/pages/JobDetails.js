@@ -82,7 +82,7 @@ const JobDetails = () => {
 	}
 
 	return (
-		<div className="pt-14 grid grid-cols-12 gap-5">
+		<div className="pt-14 grid grid-cols-12 gap-5 px-10">
 			<div className="col-span-9 mb-10">
 				<div className="h-80 rounded-xl overflow-hidden">
 					<img
