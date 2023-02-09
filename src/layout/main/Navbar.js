@@ -56,7 +56,12 @@ const Navbar = () => {
 					<li>
 						<Link
 							className="border border-black px-2 py-1 rounded-full hover:border-primary hover:text-white hover:bg-primary hover:px-4 transition-all "
-							to="/dashboard"
+							// to="/dashboard"
+							to={
+								role === 'employer'
+									? '/dashboard/employer'
+									: '/dashboard/candidate'
+							}
 						>
 							Dashboard
 						</Link>
