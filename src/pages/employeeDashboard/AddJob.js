@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux'
 import { usePostJobMutation } from '../../features/job/jobApi'
 
 const AddJob = () => {
-	const { companyName } = useSelector(state => state.auth.user)
+	const { companyName, email } = useSelector(state => state.auth.user)
 	const [postJob, { isLoading, isError, isSuccess }] = usePostJobMutation()
 	const { handleSubmit, register, control, reset } = useForm({
 		defaultValues: {
@@ -31,8 +31,8 @@ const AddJob = () => {
 	} = useFieldArray({ control, name: 'requirements' })
 
 	const onSubmit = data => {
-		postJob({ ...data, applicants: [], queries: [] })
-
+		postJob({ ...data, applicants: [], queries: [], email })
+		// reset()
 		if (isSuccess) {
 			toast('Job added successfully', { type: 'success' })
 			reset()
