@@ -1,10 +1,12 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const JobCard = ({ jobData }) => {
 	const navigate = useNavigate()
-	const { _id, position, companyName, location, employmentType } =
+	const { _id, position, companyName, location, employmentType, applicants } =
 		jobData || {}
+	const { pathname } = useLocation()
+	console.log(pathname)
 
 	return (
 		<div
@@ -25,6 +27,12 @@ const JobCard = ({ jobData }) => {
 			</div>
 			<div className="flex justify-between items-center mt-5">
 				<p>{employmentType}</p>
+				<button
+					className="btn"
+					onClick={() => navigate(`/dashboard/applicants/${_id}`)}
+				>
+					Applicants : {applicants?.length}
+				</button>
 				<button
 					className="btn"
 					onClick={() => navigate(`/job-details/${_id}`)}

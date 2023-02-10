@@ -13,6 +13,7 @@ import EmployerDashboard from '../pages/employeeDashboard/EmployerDashboard'
 import CandidateDashboard from '../pages/candidateDashboard/CandidateDashboard'
 import AppliedJobs from '../pages/candidateDashboard/AppliedJobs'
 import PostedJobs from '../pages/employeeDashboard/PostedJobs'
+import Applicants from '../components/reusable/Applicants'
 
 const routes = createBrowserRouter([
 	{
@@ -84,6 +85,10 @@ const routes = createBrowserRouter([
 			{
 				path: 'candidate',
 				element: <CandidateDashboard />,
+			},
+			{
+				path: 'applicants/:id',
+				element: <Applicants />,
 			},
 		],
 	},
