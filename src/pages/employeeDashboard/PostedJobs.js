@@ -7,9 +7,12 @@ import { BiMessageSquareAdd } from 'react-icons/bi'
 
 const PostedJobs = () => {
 	const { email } = useSelector(state => state.auth.user)
-	const { data, isLoading, isError } = useGetPostedJobsQuery(email)
+	const { data, isFetching, isError } = useGetPostedJobsQuery(email)
 	const totalJobs = data?.data
 	console.log(data?.data)
+	if (isFetching) {
+		return <p> Looading.!!</p>
+	}
 	return (
 		<div className="flex justify-center items-center overflow-auto p-5 md:p-10">
 			<div className="bg-secondary/20 shadow-lg p-10 rounded-2xl w-full h-full  ">
