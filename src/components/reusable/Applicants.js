@@ -9,9 +9,13 @@ const Applicants = () => {
 	const { applicants } = data?.data || {}
 	console.log(applicants)
 	return (
-		<div>
-			<h1>Total applicants : {applicants?.length}</h1>
-			<p>hello</p>
+		<div className="bg-secondary/20 shadow-lg p-10 rounded-2xl w-full h-full">
+			<h1 className="text-center text-xl">
+				Total applicants : {applicants?.length}
+			</h1>
+			{applicants?.map(applicant => {
+				return <li>{applicant?.email}</li>
+			})}
 		</div>
 	)
 }

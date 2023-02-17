@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import JobCard from '../../components/reusable/JobCard'
 import { useGetPostedJobsQuery } from '../../features/job/jobApi'
 import { BiMessageSquareAdd } from 'react-icons/bi'
+import Loading from '../../components/reusable/Loading'
 
 const PostedJobs = () => {
 	const { email } = useSelector(state => state.auth.user)
@@ -11,7 +12,7 @@ const PostedJobs = () => {
 	const totalJobs = data?.data
 	console.log(data?.data)
 	if (isFetching) {
-		return <p> Looading.!!</p>
+		return <Loading></Loading>
 	}
 	return (
 		<div className="flex justify-center items-center overflow-auto p-5 md:p-10">
