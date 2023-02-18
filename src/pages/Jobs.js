@@ -1,14 +1,15 @@
 import React from 'react'
 import { useEffect } from 'react'
 import JobCard from '../components/reusable/JobCard'
+import Loading from '../components/reusable/Loading'
 import { useGetJobsQuery } from '../features/job/jobApi'
 
 const Jobs = () => {
-	const { data, isLoading, isError } = useGetJobsQuery()
+	const { data, isLoading, isError, isFetching } = useGetJobsQuery()
 	console.log(data?.data)
 
-	if (isLoading) {
-		return <p className="mt-14 text-blue-800">Loading...</p>
+	if (isFetching) {
+		return <Loading></Loading>
 	}
 
 	return (
