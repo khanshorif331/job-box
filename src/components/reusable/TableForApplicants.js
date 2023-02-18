@@ -17,6 +17,7 @@ import {
 	IconChevronDown,
 	IconChevronUp,
 } from '@tabler/icons-react'
+import { useNavigate } from 'react-router-dom'
 
 const useStyles = createStyles(theme => ({
 	th: {
@@ -45,10 +46,13 @@ const useStyles = createStyles(theme => ({
 const TableForApplicants = ({ applicants }) => {
 	console.log(applicants)
 	const [search, setSearch] = useState('')
-	console.log(search)
 	const [sortedData, setSortedData] = useState(applicants)
 	const [sortBy, setSortBy] = useState(null)
 	const [reverseSortDirection, setReverseSortDirection] = useState(false)
+	const navigate = useNavigate()
+	const handleDetails = id => {
+		navigate(`/dashboard/applicantDetails/${id}`)
+	}
 
 	function Th({ children, reversed, sorted, onSort }) {
 		const { classes } = useStyles()
@@ -124,7 +128,9 @@ const TableForApplicants = ({ applicants }) => {
 			<td>{row.id}</td>
 			<td>{row.email}</td>
 			<td>
-				<button className="btn">Details</button>
+				<button onClick={() => handleDetails(row.id)} className="btn">
+					Details
+				</button>
 			</td>
 		</tr>
 	))
