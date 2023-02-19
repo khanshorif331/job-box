@@ -16,7 +16,7 @@ const jobApi = apiSlice.injectEndpoints({
 				method: 'PATCH',
 				body: data,
 			}),
-			invalidatesTags: ['Jobs'],
+			invalidatesTags: ['Jobs', 'Job'],
 		}),
 		question: builder.mutation({
 			query: data => ({

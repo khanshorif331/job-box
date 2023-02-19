@@ -1,12 +1,12 @@
 import React from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const JobCard = ({ jobData }) => {
 	const navigate = useNavigate()
 	const { _id, position, companyName, location, employmentType, applicants } =
 		jobData || {}
-	const { pathname } = useLocation()
-	console.log(pathname)
+	const { user } = useSelector(state => state.auth)
 
 	return (
 		<div
@@ -30,6 +30,7 @@ const JobCard = ({ jobData }) => {
 				<button
 					className="btn"
 					onClick={() => navigate(`/dashboard/applicants/${_id}`)}
+					disabled={user?.role !== 'employer'}
 				>
 					Applicants : {applicants?.length}
 				</button>
