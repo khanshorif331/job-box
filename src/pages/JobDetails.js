@@ -12,14 +12,18 @@ import { toast } from 'react-hot-toast'
 import { useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import ApplyButton from '../components/reusable/ApplyButton'
+import Loading from '../components/reusable/Loading'
 const JobDetails = () => {
 	const [reply, setReply] = useState('')
 	const { user } = useSelector(state => state.auth)
 	const navigate = useNavigate()
 	const { id } = useParams()
-	const { data, isLoading, isError, isSuccess } = useJobByIdQuery(id, {
-		// pollingInterval: 10000, //can use this to refresh the page
-	})
+	const { data, isLoading, isError, isSuccess, isFetching } = useJobByIdQuery(
+		id,
+		{
+			// pollingInterval: 10000, //can use this to refresh the page
+		}
+	)
 	const allReadyApplied = data?.data?.applicants?.find(
 		applicant => applicant?.email === user?.email
 	)
@@ -84,6 +88,9 @@ const JobDetails = () => {
 			userId: id,
 		}
 		sendReply(data)
+	}
+	if (isFetching) {
+		return <Loading></Loading>
 	}
 
 	return (

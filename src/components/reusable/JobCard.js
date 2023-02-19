@@ -4,9 +4,17 @@ import { useNavigate } from 'react-router-dom'
 
 const JobCard = ({ jobData }) => {
 	const navigate = useNavigate()
-	const { _id, position, companyName, location, employmentType, applicants } =
-		jobData || {}
+	const {
+		_id,
+		position,
+		companyName,
+		location,
+		employmentType,
+		applicants,
+		email,
+	} = jobData || {}
 	const { user } = useSelector(state => state.auth)
+	console.log(email, 'recruiter email')
 
 	return (
 		<div
@@ -27,13 +35,23 @@ const JobCard = ({ jobData }) => {
 			</div>
 			<div className="flex justify-between items-center mt-5">
 				<p>{employmentType}</p>
-				<button
-					className="btn"
-					onClick={() => navigate(`/dashboard/applicants/${_id}`)}
-					disabled={user?.role !== 'employer'}
-				>
-					Applicants : {applicants?.length}
-				</button>
+				{user?.role === 'employer' && (
+					<button
+						className="btn"
+						onClick={() => navigate(`/dashboard/applicants/${_id}`)}
+						disabled={user?.role !== 'employer'}
+					>
+						Applicants : {applicants?.length}
+					</button>
+				)}
+				{user?.role === 'candidate' && (
+					<button
+						className="btn"
+						onClick={() => navigate(`/dashboard/employerDetail/${_id}`)}
+					>
+						Recruiter
+					</button>
+				)}
 				<button
 					className="btn"
 					onClick={() => navigate(`/job-details/${_id}`)}
