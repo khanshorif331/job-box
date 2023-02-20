@@ -1,5 +1,4 @@
 import React from 'react'
-import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import Loading from '../../components/reusable/Loading'
 import { useGetUsersQuery } from '../../features/auth/authApi'
@@ -10,27 +9,17 @@ const EmployerDetail = () => {
 	const { data: emails, isFetching: emailFetching } = useJobByIdQuery(id)
 
 	const employerEmail = emails?.data?.email
-	const { data: userData, isLoading, isFetching } = useGetUsersQuery()
+	const { data: userData, isFetching } = useGetUsersQuery()
 
-	console.log(userData, 'userData')
 	if (isFetching || emailFetching) {
 		return <Loading />
 	}
 
-	console.log(userData, 'userData')
 	const recruiter = userData?.data?.find(user => user?.email === employerEmail)
-	console.log(recruiter, 'recruiter')
-	// const { role } = recruiter
-	// useEffect(() => {
-	// 	if (isLoading) {
-	// 		;<Loading></Loading>
-	// 	}
-	// }, [isLoading])
+
 	if (!recruiter) {
 		return <Loading></Loading>
 	}
-	// const { role } = recruiter
-	// console.log(role, 'role')
 
 	const {
 		firstName,
