@@ -34,7 +34,7 @@ const ApplicantDetails = () => {
 						Role : {role[0].toUpperCase() + role.slice(1)}
 					</p>
 					<div>
-						<ChatModal id={_id}></ChatModal>
+						<ChatModal applicant={applicant}></ChatModal>
 						{/* <button
 							onClick={() => <ChatModal id={_id}></ChatModal>}
 							className="btn"
