@@ -48,6 +48,7 @@ const EmployerDetail = () => {
 						{/* <RxAvatar className="text-2xl text-primary" /> */}
 					</div>
 				</div>
+
 				<div className="grid grid-cols-1 md:grid-cols-2">
 					<div className="mt-2">
 						<p>First Name</p>

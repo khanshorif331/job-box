@@ -1,5 +1,6 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
+import ChatModal from '../../components/reusable/ChatModal'
 import Loading from '../../components/reusable/Loading'
 import { useGetUsersQuery } from '../../features/auth/authApi'
 
@@ -20,7 +21,7 @@ const ApplicantDetails = () => {
 		lastName,
 		postcode,
 		role,
-		// _id,
+		_id,
 	} = applicant
 
 	return (
@@ -33,7 +34,13 @@ const ApplicantDetails = () => {
 						Role : {role[0].toUpperCase() + role.slice(1)}
 					</p>
 					<div>
-						<button className="btn">Send Message</button>
+						<ChatModal id={_id}></ChatModal>
+						{/* <button
+							onClick={() => <ChatModal id={_id}></ChatModal>}
+							className="btn"
+						>
+							Send Message
+						</button> */}
 						{/* <RxAvatar className="text-2xl text-primary" /> */}
 					</div>
 				</div>
