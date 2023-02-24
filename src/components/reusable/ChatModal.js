@@ -54,12 +54,13 @@ const ChatModal = ({ applicant }) => {
 					[userRole]: message,
 				},
 			})
+		} else {
+			postMessage({
+				employer,
+				candidate,
+				messages: [{ [userRole]: message }],
+			})
 		}
-		postMessage({
-			employer,
-			candidate,
-			messages: [{ [userRole]: message }],
-		})
 
 		e.target.reset()
 	}
