@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { TextInput, Button, Group, Box } from '@mantine/core'
 import { openModal, closeAllModals } from '@mantine/modals'
 import ChatHeader from './ChatHeader'
@@ -31,13 +31,17 @@ const ChatModal = ({ applicant }) => {
 	const [updateMessage] = useUpdateMessageMutation()
 	// if (data?.data?.length > 0) {
 	// }
-	const handleSendMessage = () => {
+	const handleSendMessage = e => {
+		e.preventDefault()
+		const formData = new FormData(e.target)
+		const message = formData.get('message')
 		updateMessage({
 			id: data?.data[0]?._id,
 			message: {
-				userRole: 'Ki obostha ciku',
+				[userRole]: message,
 			},
 		})
+		e.target.reset()
 	}
 
 	return (
@@ -76,23 +80,30 @@ const ChatModal = ({ applicant }) => {
 										}}
 									>
 										<TextInput
+											name="message"
 											placeholder="Write your message here..."
 											data-autofocus
+											// onChange={e => setMessage(e.target.value)}
 										/>
-										<btn>
+										<Button
+											type="submit"
+											sx={{
+												backgroundColor: '#691f74 !important',
+												color: '#fff',
+											}}
+										>
 											<BiSend
 												fontSize={24}
 												style={{
 													height: '30px',
 													width: '30px',
-													border: '2px solid #691f74',
-													borderRadius: '50%',
+													color: '#fff',
 													cursor: 'pointer',
 												}}
 											>
 												Send
 											</BiSend>
-										</btn>
+										</Button>
 									</Box>
 								</form>
 							</>
