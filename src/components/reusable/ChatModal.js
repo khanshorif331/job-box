@@ -7,13 +7,16 @@ import { BiSend } from 'react-icons/bi'
 import { useSelector } from 'react-redux'
 import {
 	useGetChatsQuery,
+	usePostChatMutation,
 	useUpdateMessageMutation,
 } from '../../features/chat/chatApi'
+import { useEffect } from 'react'
 
 const ChatModal = ({ applicant }) => {
 	let candidate
 	let employer
 	const { id, firstName, lastName, email, role } = applicant
+	const [chatData, setChatData] = useState(null)
 	const {
 		email: userEmail,
 		role: userRole,
@@ -27,20 +30,37 @@ const ChatModal = ({ applicant }) => {
 		candidate = email
 		employer = userEmail
 	}
-	const { data } = useGetChatsQuery({ candidate, employer })
+
+	const { data, isFetching } = useGetChatsQuery({ candidate, employer })
 	const [updateMessage] = useUpdateMessageMutation()
-	// if (data?.data?.length > 0) {
-	// }
+	const [postMessage] = usePostChatMutation()
+	useEffect(() => {
+		console.log('getting data', chatData)
+		setChatData(data?.data[0]?.messages)
+	}, [data, chatData])
+	if (isFetching) {
+		return <div>Loading...</div>
+	}
+
+	console.log(candidate, employer, 'candidate and employer')
 	const handleSendMessage = e => {
 		e.preventDefault()
 		const formData = new FormData(e.target)
 		const message = formData.get('message')
-		updateMessage({
-			id: data?.data[0]?._id,
-			message: {
-				[userRole]: message,
-			},
+		if (data?.data?.length > 0) {
+			updateMessage({
+				id: data?.data[0]?._id,
+				message: {
+					[userRole]: message,
+				},
+			})
+		}
+		postMessage({
+			employer,
+			candidate,
+			messages: [{ [userRole]: message }],
 		})
+
 		e.target.reset()
 	}
 
@@ -62,9 +82,10 @@ const ChatModal = ({ applicant }) => {
 						title: <ChatHeader applicant={applicant}></ChatHeader>,
 						children: (
 							<>
-								{data?.data[0].messages.map(message => {
+								{chatData?.map((message, index) => {
 									return (
 										<SingleChatMessage
+											key={index}
 											message={message}
 										></SingleChatMessage>
 									)
@@ -83,7 +104,6 @@ const ChatModal = ({ applicant }) => {
 											name="message"
 											placeholder="Write your message here..."
 											data-autofocus
-											// onChange={e => setMessage(e.target.value)}
 										/>
 										<Button
 											type="submit"

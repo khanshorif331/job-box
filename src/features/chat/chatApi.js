@@ -8,6 +8,14 @@ const chatApi = apiSlice.injectEndpoints({
 			}),
 			providesTags: ['Chats'],
 		}),
+		postChat: builder.mutation({
+			query: data => ({
+				url: '/chat',
+				method: 'POST',
+				body: data,
+			}),
+			invalidatesTags: ['Chats'],
+		}),
 		updateMessage: builder.mutation({
 			query: data => ({
 				url: '/chat',
@@ -19,4 +27,8 @@ const chatApi = apiSlice.injectEndpoints({
 	}),
 })
 
-export const { useGetChatsQuery, useUpdateMessageMutation } = chatApi
+export const {
+	useGetChatsQuery,
+	useUpdateMessageMutation,
+	usePostChatMutation,
+} = chatApi
