@@ -23,12 +23,12 @@ const useStyles = createStyles(theme => ({
 }))
 
 const ChatHeader = ({ applicant }) => {
-	const { firstName, lastName, email, _id, ...others } = applicant
+	const { firstName, lastName, email, _id } = applicant
 
 	const { classes } = useStyles()
 
 	return (
-		<UnstyledButton className={classes.user} {...others}>
+		<UnstyledButton className={classes.user}>
 			<Group>
 				<Avatar sx={{ color: '#691f74' }} radius="xl" />
 
@@ -41,8 +41,6 @@ const ChatHeader = ({ applicant }) => {
 						{email}
 					</Text>
 				</div>
-
-				{/* {icon || <IconChevronRight size={14} stroke={1.5} />} */}
 			</Group>
 		</UnstyledButton>
 	)

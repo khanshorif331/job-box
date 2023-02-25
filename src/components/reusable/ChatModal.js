@@ -9,21 +9,15 @@ import {
 	usePostChatMutation,
 	useUpdateMessageMutation,
 } from '../../features/chat/chatApi'
-import { useEffect } from 'react'
 
 const ChatModal = ({ applicant }) => {
-	// const [loading, setLoading] = useState(false)
 	const [opened, setOpened] = useState(false)
 	let candidate
 	let employer
-	let content
 	const { id, firstName, lastName, email, role } = applicant
-	const [chatData, setChatData] = useState([])
-	const {
-		email: userEmail,
-		role: userRole,
-		isLoading,
-	} = useSelector(state => state.auth.user)
+	const { email: userEmail, role: userRole } = useSelector(
+		state => state.auth.user
+	)
 
 	if (userRole === 'candidate') {
 		candidate = userEmail
@@ -32,22 +26,17 @@ const ChatModal = ({ applicant }) => {
 		candidate = email
 		employer = userEmail
 	}
-	const { data, isFetching, refetch } = useGetChatsQuery({
+	const { data, isFetching } = useGetChatsQuery({
 		candidate,
 		employer,
 	})
-
-	const [updateMessage, { isSuccess }] = useUpdateMessageMutation()
+	const [updateMessage] = useUpdateMessageMutation()
 	const [postMessage] = usePostChatMutation()
-	useEffect(() => {
-		console.log('getting data', chatData)
-		setChatData(data?.data[0]?.messages)
-	}, [data, chatData])
+
 	if (isFetching) {
 		return <div>Loading...</div>
 	}
 
-	console.log(candidate, employer, 'candidate and employer')
 	const handleSendMessage = e => {
 		e.preventDefault()
 		const formData = new FormData(e.target)
@@ -59,36 +48,15 @@ const ChatModal = ({ applicant }) => {
 					[userRole]: message,
 				},
 			})
-			refetch()
-			// setLoading(false)
-			setChatData(data?.data[0]?.messages)
 		} else {
 			postMessage({
 				employer,
 				candidate,
 				messages: [{ [userRole]: message }],
 			})
-			if (isSuccess) {
-				refetch()
-				// setLoading(false)
-				setChatData(data?.data[0]?.messages)
-			}
 		}
-		// setChatData(data?.data[0]?.messages)
 		e.target.reset()
 	}
-	// content = chatData?.map((message, index) => {
-	// 	return (
-	// 		<SingleChatMessage
-	// 			key={index}
-	// 			loading={loading}
-	// 			setLoading={setLoading}
-	// 			message={message}
-	// 		></SingleChatMessage>
-	// 		// <li>{message[Object.keys(message)[0]]}</li>
-	// 	)
-	// })
-	// content = <SingleChatMessage chatData={chatData}></SingleChatMessage>
 
 	return (
 		<Group position="center">
@@ -120,7 +88,7 @@ const ChatModal = ({ applicant }) => {
 				>
 					{/* Modal content */}
 					<>
-						{chatData?.map((message, index) => {
+						{data?.data[0]?.messages?.map((message, index) => {
 							return (
 								<SingleChatMessage
 									key={index}
@@ -128,8 +96,6 @@ const ChatModal = ({ applicant }) => {
 								></SingleChatMessage>
 							)
 						})}
-						{/* {content} */}
-						{console.log(chatData, 'chat data')}
 						<form onSubmit={handleSendMessage}>
 							<Box
 								sx={{

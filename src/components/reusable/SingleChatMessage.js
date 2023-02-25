@@ -26,7 +26,7 @@ const useStyles = createStyles(theme => ({
 	},
 }))
 
-const SingleChatMessage = ({ message, loading, setLoading, chatData }) => {
+const SingleChatMessage = ({ message }) => {
 	let currentUserMessage = false
 	const { role, firstName, laseName } = useSelector(state => state.auth.user)
 	if (role === Object.keys(message)[0]) {
@@ -35,17 +35,8 @@ const SingleChatMessage = ({ message, loading, setLoading, chatData }) => {
 		currentUserMessage = false
 	}
 	const { classes } = useStyles()
-	// if (loading) {
-	// 	return <div>Loading...</div>
-	// }
 	return (
-		// <div>
-		// 	{chatData?.map((message, key) => {
-		// 		return <li>{message}</li>
-		// 	})}
-		// </div>
 		<Paper
-			// key={key}
 			sx={{
 				marginTop: '10px',
 				width: '70%',
@@ -68,14 +59,7 @@ const SingleChatMessage = ({ message, loading, setLoading, chatData }) => {
 					</Text>
 				</div>
 			</Group>
-			{/* {loading && <div>Loading...</div>} */}
 			<TypographyStylesProvider className={classes.body}>
-				{/* <div
-					className={classes.content}
-					dangerouslySetInnerHTML={{
-						__html: message[Object.keys(message)[0]],
-					}}
-				/> */}
 				<Text size="md" color="primary">
 					{message[Object.keys(message)[0]]}
 				</Text>

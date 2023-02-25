@@ -1,5 +1,6 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
+import ChatModal from '../../components/reusable/ChatModal'
 import Loading from '../../components/reusable/Loading'
 import { useGetUsersQuery } from '../../features/auth/authApi'
 import { useJobByIdQuery } from '../../features/job/jobApi'
@@ -33,18 +34,23 @@ const EmployerDetail = () => {
 		email,
 	} = recruiter
 	return (
-		// <h1>hello {role}</h1>
 		<div className="flex justify-center items-center overflow-auto p-5 md:p-10">
 			<div className="bg-secondary/20 shadow-lg p-10 rounded-2xl w-full h-full  ">
 				<div className="flex flex-wrap gap-3 w-full h-full justify-between border-b-2 border-primary p-2 ]">
-					<p className="text-xl text-primary">Candidate Profile</p>
+					<p className="text-xl text-primary">Recruiter Profile</p>
 					<p className="text-xl text-primary">
 						{' '}
-						Role : {role}
-						{/* {recruiter?.role[0].toUpperCase() + recruiter?.role.slice(1)} */}
+						Role :
+						{recruiter?.role[0].toUpperCase() + recruiter?.role.slice(1)}
 					</p>
 					<div>
-						<button className="btn">Send Message</button>
+						{/* <button
+							className="btn"
+							// onClick={<ChatModal applicant={recruiter}></ChatModal>}
+						>
+							Send Message
+						</button> */}
+						<ChatModal applicant={recruiter}></ChatModal>
 						{/* <RxAvatar className="text-2xl text-primary" /> */}
 					</div>
 				</div>
