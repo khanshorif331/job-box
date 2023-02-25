@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { TextInput, Button, Group, Box, Modal } from '@mantine/core'
-import { openModal, closeAllModals } from '@mantine/modals'
 import ChatHeader from './ChatHeader'
 import SingleChatMessage from './SingleChatMessage'
 import { BiSend } from 'react-icons/bi'
@@ -47,9 +46,6 @@ const ChatModal = ({ applicant }) => {
 	if (isFetching) {
 		return <div>Loading...</div>
 	}
-	// if (!isFetching) {
-	// 	setLoading(false)
-	// }
 
 	console.log(candidate, employer, 'candidate and employer')
 	const handleSendMessage = e => {
@@ -109,61 +105,6 @@ const ChatModal = ({ applicant }) => {
 				}}
 				onClick={() => {
 					setOpened(true)
-					// setLoading(true)
-					// openModal({
-					// 	title: <ChatHeader applicant={applicant}></ChatHeader>,
-
-					// 	children: (
-					// <>
-					// 	{chatData?.map((message, index) => {
-					// 		return (
-					// 			<SingleChatMessage
-					// 				key={index}
-					// 				message={message}
-					// 			></SingleChatMessage>
-					// 		)
-					// 	})}
-					// 	{/* {content} */}
-					// 	{console.log(chatData, 'chat data')}
-					// 	<form onSubmit={handleSendMessage}>
-					// 		<Box
-					// 			sx={{
-					// 				display: 'flex',
-					// 				alignItems: 'center',
-					// 				justifyContent: 'space-evenly',
-					// 				paddingTop: '15px',
-					// 			}}
-					// 		>
-					// 			<TextInput
-					// 				name="message"
-					// 				placeholder="Write your message here..."
-					// 				data-autofocus
-					// 			/>
-					// 			{/* {loading && <p>Loading...</p>} */}
-					// 			<Button
-					// 				type="submit"
-					// 				sx={{
-					// 					backgroundColor: '#691f74 !important',
-					// 					color: '#fff',
-					// 				}}
-					// 			>
-					// 				<BiSend
-					// 					fontSize={24}
-					// 					style={{
-					// 						height: '30px',
-					// 						width: '30px',
-					// 						color: '#fff',
-					// 						cursor: 'pointer',
-					// 					}}
-					// 				>
-					// 					Send
-					// 				</BiSend>
-					// 			</Button>
-					// 		</Box>
-					// 	</form>
-					// </>
-					// 	),
-					// })
 				}}
 			>
 				<Modal
@@ -203,7 +144,6 @@ const ChatModal = ({ applicant }) => {
 									placeholder="Write your message here..."
 									data-autofocus
 								/>
-								{/* {loading && <p>Loading...</p>} */}
 								<Button
 									type="submit"
 									sx={{
