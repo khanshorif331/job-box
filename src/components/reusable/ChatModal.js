@@ -88,14 +88,23 @@ const ChatModal = ({ applicant }) => {
 				>
 					{/* Modal content */}
 					<>
-						{data?.data[0]?.messages?.map((message, index) => {
-							return (
-								<SingleChatMessage
-									key={index}
-									message={message}
-								></SingleChatMessage>
-							)
-						})}
+						<div
+						// style={{
+						// 	height: '600px',
+						// 	// overflow: 'auto',
+						// 	display: 'flex',
+						// 	flexDirection: 'column-reverse',
+						// }}
+						>
+							{data?.data[0]?.messages?.map((message, index) => {
+								return (
+									<SingleChatMessage
+										key={index}
+										message={message}
+									></SingleChatMessage>
+								)
+							})}
+						</div>
 						<form onSubmit={handleSendMessage}>
 							<Box
 								sx={{
