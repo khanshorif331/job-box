@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { TextInput, Button, Group, Box } from '@mantine/core'
+import { TextInput, Button, Group, Box, Modal } from '@mantine/core'
 import { openModal, closeAllModals } from '@mantine/modals'
 import ChatHeader from './ChatHeader'
 import SingleChatMessage from './SingleChatMessage'
@@ -13,10 +13,13 @@ import {
 import { useEffect } from 'react'
 
 const ChatModal = ({ applicant }) => {
+	// const [loading, setLoading] = useState(false)
+	const [opened, setOpened] = useState(false)
 	let candidate
 	let employer
+	let content
 	const { id, firstName, lastName, email, role } = applicant
-	const [chatData, setChatData] = useState(null)
+	const [chatData, setChatData] = useState([])
 	const {
 		email: userEmail,
 		role: userRole,
@@ -30,9 +33,12 @@ const ChatModal = ({ applicant }) => {
 		candidate = email
 		employer = userEmail
 	}
+	const { data, isFetching, refetch } = useGetChatsQuery({
+		candidate,
+		employer,
+	})
 
-	const { data, isFetching } = useGetChatsQuery({ candidate, employer })
-	const [updateMessage] = useUpdateMessageMutation()
+	const [updateMessage, { isSuccess }] = useUpdateMessageMutation()
 	const [postMessage] = usePostChatMutation()
 	useEffect(() => {
 		console.log('getting data', chatData)
@@ -41,6 +47,9 @@ const ChatModal = ({ applicant }) => {
 	if (isFetching) {
 		return <div>Loading...</div>
 	}
+	// if (!isFetching) {
+	// 	setLoading(false)
+	// }
 
 	console.log(candidate, employer, 'candidate and employer')
 	const handleSendMessage = e => {
@@ -54,16 +63,36 @@ const ChatModal = ({ applicant }) => {
 					[userRole]: message,
 				},
 			})
+			refetch()
+			// setLoading(false)
+			setChatData(data?.data[0]?.messages)
 		} else {
 			postMessage({
 				employer,
 				candidate,
 				messages: [{ [userRole]: message }],
 			})
+			if (isSuccess) {
+				refetch()
+				// setLoading(false)
+				setChatData(data?.data[0]?.messages)
+			}
 		}
-
+		// setChatData(data?.data[0]?.messages)
 		e.target.reset()
 	}
+	// content = chatData?.map((message, index) => {
+	// 	return (
+	// 		<SingleChatMessage
+	// 			key={index}
+	// 			loading={loading}
+	// 			setLoading={setLoading}
+	// 			message={message}
+	// 		></SingleChatMessage>
+	// 		// <li>{message[Object.keys(message)[0]]}</li>
+	// 	)
+	// })
+	// content = <SingleChatMessage chatData={chatData}></SingleChatMessage>
 
 	return (
 		<Group position="center">
@@ -79,59 +108,125 @@ const ChatModal = ({ applicant }) => {
 					},
 				}}
 				onClick={() => {
-					openModal({
-						title: <ChatHeader applicant={applicant}></ChatHeader>,
-						children: (
-							<>
-								{chatData?.map((message, index) => {
-									return (
-										<SingleChatMessage
-											key={index}
-											message={message}
-										></SingleChatMessage>
-									)
-								})}
+					setOpened(true)
+					// setLoading(true)
+					// openModal({
+					// 	title: <ChatHeader applicant={applicant}></ChatHeader>,
 
-								<form onSubmit={handleSendMessage}>
-									<Box
-										sx={{
-											display: 'flex',
-											alignItems: 'center',
-											justifyContent: 'space-evenly',
-											paddingTop: '15px',
-										}}
-									>
-										<TextInput
-											name="message"
-											placeholder="Write your message here..."
-											data-autofocus
-										/>
-										<Button
-											type="submit"
-											sx={{
-												backgroundColor: '#691f74 !important',
-												color: '#fff',
-											}}
-										>
-											<BiSend
-												fontSize={24}
-												style={{
-													height: '30px',
-													width: '30px',
-													color: '#fff',
-													cursor: 'pointer',
-												}}
-											>
-												Send
-											</BiSend>
-										</Button>
-									</Box>
-								</form>
-							</>
-						),
-					})
+					// 	children: (
+					// <>
+					// 	{chatData?.map((message, index) => {
+					// 		return (
+					// 			<SingleChatMessage
+					// 				key={index}
+					// 				message={message}
+					// 			></SingleChatMessage>
+					// 		)
+					// 	})}
+					// 	{/* {content} */}
+					// 	{console.log(chatData, 'chat data')}
+					// 	<form onSubmit={handleSendMessage}>
+					// 		<Box
+					// 			sx={{
+					// 				display: 'flex',
+					// 				alignItems: 'center',
+					// 				justifyContent: 'space-evenly',
+					// 				paddingTop: '15px',
+					// 			}}
+					// 		>
+					// 			<TextInput
+					// 				name="message"
+					// 				placeholder="Write your message here..."
+					// 				data-autofocus
+					// 			/>
+					// 			{/* {loading && <p>Loading...</p>} */}
+					// 			<Button
+					// 				type="submit"
+					// 				sx={{
+					// 					backgroundColor: '#691f74 !important',
+					// 					color: '#fff',
+					// 				}}
+					// 			>
+					// 				<BiSend
+					// 					fontSize={24}
+					// 					style={{
+					// 						height: '30px',
+					// 						width: '30px',
+					// 						color: '#fff',
+					// 						cursor: 'pointer',
+					// 					}}
+					// 				>
+					// 					Send
+					// 				</BiSend>
+					// 			</Button>
+					// 		</Box>
+					// 	</form>
+					// </>
+					// 	),
+					// })
 				}}
 			>
+				<Modal
+					opened={opened}
+					onClose={() => setOpened(false)}
+					centered
+					transition="fade"
+					transitionDuration={600}
+					transitionTimingFunction="ease"
+					size="md"
+					overflow="inside"
+					title={<ChatHeader applicant={applicant}></ChatHeader>}
+				>
+					{/* Modal content */}
+					<>
+						{chatData?.map((message, index) => {
+							return (
+								<SingleChatMessage
+									key={index}
+									message={message}
+								></SingleChatMessage>
+							)
+						})}
+						{/* {content} */}
+						{console.log(chatData, 'chat data')}
+						<form onSubmit={handleSendMessage}>
+							<Box
+								sx={{
+									display: 'flex',
+									alignItems: 'center',
+									justifyContent: 'space-evenly',
+									paddingTop: '15px',
+								}}
+							>
+								<TextInput
+									name="message"
+									placeholder="Write your message here..."
+									data-autofocus
+								/>
+								{/* {loading && <p>Loading...</p>} */}
+								<Button
+									type="submit"
+									sx={{
+										backgroundColor: '#691f74 !important',
+										color: '#fff',
+									}}
+								>
+									<BiSend
+										fontSize={24}
+										style={{
+											height: '30px',
+											width: '30px',
+											color: '#fff',
+											cursor: 'pointer',
+										}}
+									>
+										Send
+									</BiSend>
+								</Button>
+							</Box>
+						</form>
+					</>
+				</Modal>
 				Send Message
 			</Button>
 		</Group>

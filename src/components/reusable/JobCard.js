@@ -14,7 +14,6 @@ const JobCard = ({ jobData }) => {
 		email,
 	} = jobData || {}
 	const { user } = useSelector(state => state.auth)
-	console.log(email, 'recruiter email')
 
 	return (
 		<div

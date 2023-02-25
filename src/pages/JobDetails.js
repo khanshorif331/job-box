@@ -11,7 +11,6 @@ import {
 import { toast } from 'react-hot-toast'
 import { useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
-import ApplyButton from '../components/reusable/ApplyButton'
 import Loading from '../components/reusable/Loading'
 const JobDetails = () => {
 	const [reply, setReply] = useState('')
@@ -27,7 +26,6 @@ const JobDetails = () => {
 	const allReadyApplied = data?.data?.applicants?.find(
 		applicant => applicant?.email === user?.email
 	)
-	console.log(allReadyApplied, 'applied info')
 	const [sendQuestion] = useQuestionMutation()
 	const [sendReply] = useReplyMutation()
 	const {
@@ -116,7 +114,6 @@ const JobDetails = () => {
 							<button className="btn" onClick={handleApply}>
 								Apply
 							</button>
-							// <ApplyButton handleApply={handleApply}></ApplyButton>
 						)}
 					</div>
 					<div>
