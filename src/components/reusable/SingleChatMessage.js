@@ -41,7 +41,10 @@ const SingleChatMessage = ({ message }) => {
 				marginTop: '10px',
 				width: '70%',
 				...(currentUserMessage
-					? { marginLeft: 'auto' }
+					? {
+							marginLeft: 'auto',
+							backgroundColor: '#32687d',
+					  }
 					: { marginRight: 'auto' }),
 			}}
 			withBorder

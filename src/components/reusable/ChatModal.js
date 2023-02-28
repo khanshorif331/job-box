@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { TextInput, Button, Group, Box, Modal } from '@mantine/core'
+import React, { useRef, useState } from 'react'
+import { TextInput, Button, Group, Box, Modal, Loader } from '@mantine/core'
 import ChatHeader from './ChatHeader'
 import SingleChatMessage from './SingleChatMessage'
 import { BiSend } from 'react-icons/bi'
@@ -9,9 +9,14 @@ import {
 	usePostChatMutation,
 	useUpdateMessageMutation,
 } from '../../features/chat/chatApi'
+import { useEffect } from 'react'
 
 const ChatModal = ({ applicant }) => {
+	// through the applicant prop, we get the applicant's email and role
+	// also for the candidate dashboard,we get recruiter's email and role
 	const [opened, setOpened] = useState(false)
+	const lastMessageRef = useRef(null)
+	const allMessagesRef = useRef(null)
 	let candidate
 	let employer
 	const { id, firstName, lastName, email, role } = applicant
@@ -19,6 +24,7 @@ const ChatModal = ({ applicant }) => {
 		state => state.auth.user
 	)
 
+	// setting the candidate and employer emails for the useGetChatsQuery hook
 	if (userRole === 'candidate') {
 		candidate = userEmail
 		employer = email
@@ -33,6 +39,14 @@ const ChatModal = ({ applicant }) => {
 	const [updateMessage] = useUpdateMessageMutation()
 	const [postMessage] = usePostChatMutation()
 
+	useEffect(() => {
+		// if (lastMessageRef.current) {
+		lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' })
+		// }
+	}, [data])
+	useEffect(() => {
+		allMessagesRef.current?.scrollIntoView({ behavior: 'smooth' })
+	}, [])
 	const handleSendMessage = e => {
 		e.preventDefault()
 		const formData = new FormData(e.target)
@@ -85,12 +99,14 @@ const ChatModal = ({ applicant }) => {
 					{/* Modal content */}
 					<>
 						<div
-						// style={{
-						// 	height: '600px',
-						// 	// overflow: 'auto',
-						// 	display: 'flex',
-						// 	flexDirection: 'column-reverse',
-						// }}
+							ref={allMessagesRef}
+							style={{
+								height: 'auto',
+								overflow: 'auto',
+								display: 'flex',
+								flexDirection: 'column',
+								// flexDirection: 'column-reverse',
+							}}
 						>
 							{isLoading && <div>Loading...</div>}
 							{data?.data[0]?.messages?.map((message, index) => {
@@ -101,6 +117,7 @@ const ChatModal = ({ applicant }) => {
 									></SingleChatMessage>
 								)
 							})}
+							<div ref={lastMessageRef}></div>
 						</div>
 						<form onSubmit={handleSendMessage}>
 							<Box
@@ -109,6 +126,8 @@ const ChatModal = ({ applicant }) => {
 									alignItems: 'center',
 									justifyContent: 'space-evenly',
 									paddingTop: '15px',
+									position: 'sticky',
+									bottom: '0',
 								}}
 							>
 								<TextInput
@@ -116,25 +135,29 @@ const ChatModal = ({ applicant }) => {
 									placeholder="Write your message here..."
 									data-autofocus
 								/>
-								<Button
-									type="submit"
-									sx={{
-										backgroundColor: '#691f74 !important',
-										color: '#fff',
-									}}
-								>
-									<BiSend
-										fontSize={24}
-										style={{
-											height: '30px',
-											width: '30px',
+								{isFetching ? (
+									<Loader color="grape" />
+								) : (
+									<Button
+										type="submit"
+										sx={{
+											backgroundColor: '#691f74 !important',
 											color: '#fff',
-											cursor: 'pointer',
 										}}
 									>
-										Send
-									</BiSend>
-								</Button>
+										<BiSend
+											fontSize={24}
+											style={{
+												height: '30px',
+												width: '30px',
+												color: '#fff',
+												cursor: 'pointer',
+											}}
+										>
+											Send
+										</BiSend>
+									</Button>
+								)}
 							</Box>
 						</form>
 					</>
