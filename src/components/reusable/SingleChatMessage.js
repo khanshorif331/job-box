@@ -28,7 +28,7 @@ const useStyles = createStyles(theme => ({
 
 const SingleChatMessage = ({ message }) => {
 	let currentUserMessage = false
-	const { role, firstName, laseName } = useSelector(state => state.auth.user)
+	const { role, firstName, lastName } = useSelector(state => state.auth.user)
 	if (role === Object.keys(message)[0]) {
 		currentUserMessage = true
 	} else {

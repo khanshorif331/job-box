@@ -26,16 +26,12 @@ const ChatModal = ({ applicant }) => {
 		candidate = email
 		employer = userEmail
 	}
-	const { data, isFetching } = useGetChatsQuery({
+	const { data, isFetching, isLoading } = useGetChatsQuery({
 		candidate,
 		employer,
 	})
 	const [updateMessage] = useUpdateMessageMutation()
 	const [postMessage] = usePostChatMutation()
-
-	if (isFetching) {
-		return <div>Loading...</div>
-	}
 
 	const handleSendMessage = e => {
 		e.preventDefault()
@@ -96,6 +92,7 @@ const ChatModal = ({ applicant }) => {
 						// 	flexDirection: 'column-reverse',
 						// }}
 						>
+							{isLoading && <div>Loading...</div>}
 							{data?.data[0]?.messages?.map((message, index) => {
 								return (
 									<SingleChatMessage
