@@ -8,7 +8,7 @@ const Chats = () => {
 		role,
 		email,
 	})
-	console.log(data)
+	console.log(data?.data)
 	return (
 		<div>
 			<h1>This is chats</h1>
