@@ -32,10 +32,15 @@ const ChatModal = ({ applicant }) => {
 		candidate = email
 		employer = userEmail
 	}
-	const { data, isFetching, isLoading } = useGetChatsQuery({
-		candidate,
-		employer,
-	})
+	const { data, isFetching, isLoading } = useGetChatsQuery(
+		{
+			candidate,
+			employer,
+		},
+		{
+			pollingInterval: 3000,
+		}
+	)
 	const [updateMessage] = useUpdateMessageMutation()
 	const [postMessage] = usePostChatMutation()
 
@@ -108,7 +113,6 @@ const ChatModal = ({ applicant }) => {
 								// flexDirection: 'column-reverse',
 							}}
 						>
-							{isLoading && <div>Loading...</div>}
 							{data?.data[0]?.messages?.map((message, index) => {
 								return (
 									<SingleChatMessage
@@ -135,7 +139,7 @@ const ChatModal = ({ applicant }) => {
 									placeholder="Write your message here..."
 									data-autofocus
 								/>
-								{isFetching ? (
+								{isLoading ? (
 									<Loader color="grape" />
 								) : (
 									<Button

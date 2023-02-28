@@ -2,6 +2,11 @@ import apiSlice from '../api/apiSlice'
 
 const chatApi = apiSlice.injectEndpoints({
 	endpoints: builder => ({
+		getChatsByEmail: builder.query({
+			query: arg => ({
+				url: `/chats?${arg.role}=${arg.email}`,
+			}),
+		}),
 		getChats: builder.query({
 			query: arg => ({
 				url: `/chats?candidate=${arg.candidate}&employer=${arg.employer}`,
@@ -31,4 +36,5 @@ export const {
 	useGetChatsQuery,
 	useUpdateMessageMutation,
 	usePostChatMutation,
+	useGetChatsByEmailQuery,
 } = chatApi

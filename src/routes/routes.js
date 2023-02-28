@@ -16,6 +16,7 @@ import PostedJobs from '../pages/employeeDashboard/PostedJobs'
 import Applicants from '../components/reusable/Applicants'
 import ApplicantDetails from '../pages/employeeDashboard/ApplicantDetails'
 import EmployerDetail from '../pages/candidateDashboard/EmployerDetail'
+import Chats from '../components/reusable/Chats/Chats'
 
 const routes = createBrowserRouter([
 	{
@@ -99,6 +100,10 @@ const routes = createBrowserRouter([
 			{
 				path: 'employerDetail/:id',
 				element: <EmployerDetail />,
+			},
+			{
+				path: 'chats',
+				element: <Chats />,
 			},
 		],
 	},
