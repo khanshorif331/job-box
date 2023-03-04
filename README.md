@@ -5,6 +5,5 @@
 * Tailwind
 * Rtk Query
 * Mantine Ui
-* Socket IO
 # Server Side
 https://github.com/khanshorif331/job-box-server
