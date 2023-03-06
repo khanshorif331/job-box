@@ -4,6 +4,7 @@
 * Redux
 * Tailwind
 * Rtk Query
+* Socket IO
 
 # Server Side
 https://github.com/khanshorif331/job-box-server
