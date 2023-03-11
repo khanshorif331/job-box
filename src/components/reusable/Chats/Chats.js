@@ -11,7 +11,8 @@ const Chats = () => {
 	console.log(data?.data)
 	return (
 		<div>
-			<h1>This is chats</h1>
+			<h1 className="text-xl"> This is chats</h1>
+			<p>No need to go to the </p>
 		</div>
 	)
 }
